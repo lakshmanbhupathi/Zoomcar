@@ -2,7 +2,8 @@
 
 Car/bike rentals application
 
-Problem:
+**Problem statement**
+
 As discussed, I would like you to work on a basic spring boot application. 
 
 You will be writing APIs for a vehicle leasing software (ex: zoomcar)
@@ -18,7 +19,7 @@ Some evaluation parameters:
 
 1. Instructions on how to build and run. 
 2. Spring integration tests.
-3. Exception handling
-4. Usage of right response codes
+3. Exception handling.
+4. Usage of right response codes.
 5. Signs of extensible solution. 
-6. Any indication of design patterns 
+6. Any indication of design patterns. 
