@@ -7,12 +7,26 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long userId;
 
     @Column
     private String name;
 
-//    @Column
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User() {
+    }
+    //    @Column
 //    private String name;
 }
