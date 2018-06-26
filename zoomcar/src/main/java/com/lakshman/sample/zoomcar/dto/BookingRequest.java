@@ -1,13 +1,25 @@
 package com.lakshman.sample.zoomcar.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class BookingRequest {
 
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date toDate;
+
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date fromDate;
+
+    @NotNull
     private Long vehicleId;
+
+    @NotNull
     private Long userId;
 
     public BookingRequest() {
