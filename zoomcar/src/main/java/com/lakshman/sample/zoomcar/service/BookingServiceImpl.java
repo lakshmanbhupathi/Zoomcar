@@ -13,6 +13,7 @@ import com.lakshman.sample.zoomcar.exceptions.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,12 +36,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setFromDate(bookingRequest.getFromDate());
         booking.setToDate(bookingRequest.getToDate());
 
-        Optional<User> userOptional = userRepository.findById(bookingRequest.getUserId());
-        if (userOptional.isPresent()) {
-            booking.setUser(userOptional.get());
-        } else {
-            throw new ContentNotFoundException("User not found");
-        }
+        booking.setUser(fetchUser(bookingRequest.getUserId()));
 
         Optional<Vehicle> vehicleOptional = vehicleRepository.findById(bookingRequest.getVehicleId());
         if (vehicleOptional.isPresent()) {
@@ -54,5 +50,22 @@ public class BookingServiceImpl implements BookingService {
         } catch (Exception e) {
             throw new InternalException(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Booking> getBookingHistory(String userId) {
+        User user = fetchUser(Long.parseLong(userId));
+        return bookingRepository.getPastHistoryByUser(user);
+    }
+
+    private User fetchUser(final Long userId) {
+        User user;
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
+            throw new ContentNotFoundException("User not found");
+        }
+        return user;
     }
 }

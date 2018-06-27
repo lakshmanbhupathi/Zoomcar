@@ -1,10 +1,16 @@
 package com.lakshman.sample.zoomcar.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Date;
 
-@Entity
+@Entity(name = "Booking")
 @Table
 public class Booking {
 
