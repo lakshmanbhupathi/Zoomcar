@@ -5,7 +5,10 @@ import com.lakshman.sample.zoomcar.dto.BookingRequest;
 import com.lakshman.sample.zoomcar.dto.BookingResponse;
 import com.lakshman.sample.zoomcar.entity.Booking;
 import com.lakshman.sample.zoomcar.entity.User;
+import com.lakshman.sample.zoomcar.entity.Vehicle;
+import com.lakshman.sample.zoomcar.exceptions.BookingFailedException;
 import com.lakshman.sample.zoomcar.exceptions.InternalException;
+import com.lakshman.sample.zoomcar.helper.BookingHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private VehicleService vehicleService;
 
+    @Autowired
+    private BookingHelper bookingHelper;
+
 
     @Override
     public BookingResponse bookVehicle(BookingRequest bookingRequest) {
@@ -32,7 +38,13 @@ public class BookingServiceImpl implements BookingService {
         booking.setToDate(bookingRequest.getToDate());
 
         booking.setUser(userService.getUserById(bookingRequest.getUserId()));
-        booking.setVehicle(vehicleService.getVehicleById(bookingRequest.getVehicleId()));
+
+        Vehicle vehicle = vehicleService.getVehicleById(bookingRequest.getVehicleId());
+        booking.setVehicle(vehicle);
+
+        if(!bookingHelper.validateBooking(bookingRequest, vehicle)){
+            throw new BookingFailedException();
+        }
 
         try {
             Booking bookingRepoResponse = bookingRepository.save(booking);
@@ -41,6 +53,8 @@ public class BookingServiceImpl implements BookingService {
             throw new InternalException(e.getMessage());
         }
     }
+
+
 
     @Override
     public List<Booking> getBookingHistory(String userId) {
