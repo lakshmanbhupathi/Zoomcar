@@ -31,12 +31,28 @@ Application with complete solution
 Technology stack:
 
 - Java 10 
-- Spring boot 2.0.1.RELEASE 
+- Spring boot 2.0.3.RELEASE 
 - Spring JPA
 - H2 embedded database
 - PostMan
 - gradle 4.6 (build tool) 
 - Github 
 - Intellij Idea 18 
+
+Instructions:
+
+0. Make sure JDK 8 installed ( JDK 10 used for development purpose, but works fine with JDK 8)
+1. Please install latest gradle 4.6
+2. Open project as gradle project from Intellij Idea(for eclipse please install gradle plugin prior to import).
+3. Run ZoomcarApplication.main(), now web application will be up on http://localhost:8080)
+4. Install POSTMAN from chrome app store
+5. import Zoomcar.postman_collection.json collection into postman
+6. Now you can run API's from already made API requests in Postman.
+
+Instructions to run test cases:
+
+`cd {project_dir}`
+
+`gradle test`
 
 
