@@ -3,7 +3,10 @@ package com.lakshman.sample.zoomcar.service;
 import com.lakshman.sample.zoomcar.dao.VehicleRepository;
 import com.lakshman.sample.zoomcar.entity.Vehicle;
 import com.lakshman.sample.zoomcar.enums.VehicleType;
+import com.lakshman.sample.zoomcar.exceptions.BookingBadRequest;
 import com.lakshman.sample.zoomcar.exceptions.ContentNotFoundException;
+import com.lakshman.sample.zoomcar.exceptions.InternalException;
+import com.lakshman.sample.zoomcar.exceptions.VehicleBadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,11 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<Vehicle> getVehiclesByType(String vehicleType) {
-        return vehicleRepository.getVehiclesByType(VehicleType.valueOf(vehicleType));
+        try {
+            return vehicleRepository.getVehiclesByType(VehicleType.valueOf(vehicleType));
+        } catch (IllegalArgumentException ie) {
+            throw new VehicleBadRequest();
+        }
     }
 
     @Override

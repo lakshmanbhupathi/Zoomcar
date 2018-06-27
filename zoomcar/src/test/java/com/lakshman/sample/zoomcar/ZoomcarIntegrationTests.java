@@ -1,6 +1,5 @@
 package com.lakshman.sample.zoomcar;
 
-import com.lakshman.sample.zoomcar.entity.Booking;
 import com.lakshman.sample.zoomcar.entity.Vehicle;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -8,17 +7,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -57,5 +51,39 @@ public class ZoomcarIntegrationTests {
         assertEquals(4, response.length);
     }
 
+
+    @Test
+    public void testGetVehicleByTypeController() {
+        ResponseEntity<Vehicle[]> responseEntity =
+                restTemplate.getForEntity("/vehicle/byType/SEDAN", Vehicle[].class);
+        Vehicle[] response = responseEntity.getBody();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(response);
+        assertEquals(2, response.length);
+    }
+
+    @Test
+    public void testGetVehicleByTypeControllerWhenNotFound() {
+        ResponseEntity<Vehicle[]> responseEntity =
+                restTemplate.getForEntity("/vehicle/byType/CROSSOVER", Vehicle[].class);
+        Vehicle[] response = responseEntity.getBody();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(response);
+        assertEquals(0, response.length);
+    }
+
+    @Test
+    public void testGetVehicleByTypeControllerWhenNotEnumFound() {
+        ResponseEntity<Object> responseEntity =
+                restTemplate.getForEntity("/vehicle/byType/SomeUnknownVehicleType", Object.class);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void testGetVehicleByTypeControllerWhenNoVehicleType() {
+        ResponseEntity<Object> responseEntity =
+                restTemplate.getForEntity("/vehicle/byType", Object.class);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
 
 }
