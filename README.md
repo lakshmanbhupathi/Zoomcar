@@ -23,3 +23,20 @@ Some evaluation parameters:
 4. Usage of right response codes.
 5. Signs of extensible solution. 
 6. Any indication of design patterns. 
+
+**Solution**
+
+Application with complete solution
+
+Technology stack:
+
+- Java 10 
+- Spring boot 2.0.1.RELEASE 
+- Spring JPA
+- H2 embedded database
+- PostMan
+- gradle 4.6 (build tool) 
+- Github 
+- Intellij Idea 18 
+
+
