@@ -31,22 +31,8 @@ dependencies {
 	compile('com.h2database:h2')
 
 	compile('javax.xml.bind:jaxb-api:2.2.11')
-
-//	<dependency>
-//	<groupId>javax.xml.bind</groupId>
-//			<artifactId>jaxb-api</artifactId>
-//	<version>2.2.11</version>
-//		</dependency>
-//	<dependency>
-//	<groupId>com.sun.xml.bind</groupId>
-//			<artifactId>jaxb-core</artifactId>
-//	<version>2.2.11</version>
-//		</dependency>
-//	<dependency>
-//	<groupId>com.sun.xml.bind</groupId>
-//			<artifactId>jaxb-impl</artifactId>
-//	<version>2.2.11</version>
-//		</dependency>
+//	compile('com.sun.xml.bind:jaxb-core:2.2.11')
+//	compile('com.sun.xml.bind:jaxb-impl:2.2.11')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
