@@ -1,8 +1,12 @@
 package com.lakshman.sample.zoomcar.entity;
 
 
+import com.lakshman.sample.zoomcar.enums.VehicleType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,11 +23,20 @@ public class Vehicle {
     @Column(unique = true, nullable = false)
     private String vehicleNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VehicleType vehicleType;
+
     public Vehicle() {
     }
 
     public Vehicle(String vehicleNumber) {
         this.vehicleNumber = vehicleNumber;
+    }
+
+    public Vehicle(String vehicleNumber, VehicleType vehicleType) {
+        this.vehicleNumber = vehicleNumber;
+        this.vehicleType = vehicleType;
     }
 
     public String getVehicleNumber() {
@@ -40,5 +53,13 @@ public class Vehicle {
 
     public void setVehicleId(long vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 }
