@@ -1,20 +1,15 @@
 package com.lakshman.sample.zoomcar.service;
 
 import com.lakshman.sample.zoomcar.dao.BookingRepository;
-import com.lakshman.sample.zoomcar.dao.UserRepository;
-import com.lakshman.sample.zoomcar.dao.VehicleRepository;
 import com.lakshman.sample.zoomcar.dto.BookingRequest;
 import com.lakshman.sample.zoomcar.dto.BookingResponse;
 import com.lakshman.sample.zoomcar.entity.Booking;
 import com.lakshman.sample.zoomcar.entity.User;
-import com.lakshman.sample.zoomcar.entity.Vehicle;
-import com.lakshman.sample.zoomcar.exceptions.ContentNotFoundException;
 import com.lakshman.sample.zoomcar.exceptions.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -23,10 +18,10 @@ public class BookingServiceImpl implements BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private VehicleRepository vehicleRepository;
+    private VehicleService vehicleService;
 
 
     @Override
@@ -36,14 +31,9 @@ public class BookingServiceImpl implements BookingService {
         booking.setFromDate(bookingRequest.getFromDate());
         booking.setToDate(bookingRequest.getToDate());
 
-        booking.setUser(fetchUser(bookingRequest.getUserId()));
+        booking.setUser(userService.getUserById(bookingRequest.getUserId()));
+        booking.setVehicle(vehicleService.getVehicleById(bookingRequest.getVehicleId()));
 
-        Optional<Vehicle> vehicleOptional = vehicleRepository.findById(bookingRequest.getVehicleId());
-        if (vehicleOptional.isPresent()) {
-            booking.setVehicle(vehicleOptional.get());
-        } else {
-            throw new ContentNotFoundException("Vehicle not found");
-        }
         try {
             Booking bookingRepoResponse = bookingRepository.save(booking);
             return new BookingResponse(true, bookingRepoResponse.getBookingId());
@@ -54,18 +44,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getBookingHistory(String userId) {
-        User user = fetchUser(Long.parseLong(userId));
+        User user = userService.getUserById(Long.parseLong(userId));
         return bookingRepository.getPastHistoryByUser(user);
     }
 
-    private User fetchUser(final Long userId) {
-        User user;
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            user = userOptional.get();
-        } else {
-            throw new ContentNotFoundException("User not found");
-        }
-        return user;
-    }
+
 }

@@ -8,4 +8,6 @@ public interface VehicleService {
     List<Vehicle> getAllVehicles();
 
     List<Vehicle> getVehiclesByType(String vehicleType);
+
+    Vehicle getVehicleById(Long vehicleId);
 }
