@@ -1,5 +1,8 @@
 package com.lakshman.sample.zoomcar;
 
+import com.lakshman.sample.zoomcar.dto.BookingRequest;
+import com.lakshman.sample.zoomcar.dto.BookingResponse;
+import com.lakshman.sample.zoomcar.entity.Booking;
 import com.lakshman.sample.zoomcar.entity.Vehicle;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -11,6 +14,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
@@ -84,6 +90,70 @@ public class ZoomcarIntegrationTests {
         ResponseEntity<Object> responseEntity =
                 restTemplate.getForEntity("/vehicle/byType", Object.class);
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void testzzzBookingPastHistory() {
+        ResponseEntity<Booking[]> responseEntity =
+                restTemplate.getForEntity("/booking/history/2", Booking[].class);
+        Booking[] response = responseEntity.getBody();
+            assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(response);
+        assertEquals(1, response.length);
+    }
+
+    @Test
+    public void testzbookVehicle() {
+        BookingRequest bookingRequest = new BookingRequest();
+        bookingRequest.setUserId(2L);
+        bookingRequest.setVehicleId(6L);
+        bookingRequest.setFromDate(new Date());
+
+        Date toDate = new Date();
+        toDate.setTime(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2));
+        bookingRequest.setToDate(toDate);
+
+        ResponseEntity<BookingResponse> responseEntity =
+                restTemplate.postForEntity("/booking/bookVehicle", bookingRequest, BookingResponse.class);
+        BookingResponse response = responseEntity.getBody();
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testzzbookVehicleWhenToDateAfterFromDate() {
+        BookingRequest bookingRequest = new BookingRequest();
+        bookingRequest.setUserId(2L);
+        bookingRequest.setVehicleId(6L);
+        bookingRequest.setToDate(new Date());
+
+        Date fromDate = new Date();
+        fromDate.setTime(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2));
+        bookingRequest.setFromDate(fromDate);
+
+        ResponseEntity<BookingResponse> responseEntity =
+                restTemplate.postForEntity("/booking/bookVehicle", bookingRequest, BookingResponse.class);
+        BookingResponse response = responseEntity.getBody();
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testzzbookVehicleWhenVehicleAlreadyOccupied() {
+        BookingRequest bookingRequest = new BookingRequest();
+        bookingRequest.setUserId(2L);
+        bookingRequest.setVehicleId(6L);
+        bookingRequest.setFromDate(new Date());
+
+        Date fromDate = new Date();
+        fromDate.setTime(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2));
+        bookingRequest.setToDate(fromDate);
+
+        ResponseEntity<BookingResponse> responseEntity =
+                restTemplate.postForEntity("/booking/bookVehicle", bookingRequest, BookingResponse.class);
+        BookingResponse response = responseEntity.getBody();
+        assertEquals(HttpStatus.CONFLICT, responseEntity.getStatusCode());
+        assertNotNull(response);
     }
 
 }
