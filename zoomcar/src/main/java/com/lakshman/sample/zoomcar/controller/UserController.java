@@ -12,6 +12,10 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * testing purpose
+     * @return
+     */
     @PostMapping("/addUsers")
     public boolean addDefaultUsers() {
         userRepository.save(new User("Lucky"));

@@ -23,6 +23,10 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    /**
+     * testing purpose
+     * @return
+     */
     @PostMapping("/addVehicles")
     public boolean addVehicles(){
         vehicleRepository.save(new Vehicle("1234",VehicleType.SEDAN));
