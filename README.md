@@ -48,6 +48,7 @@ Instructions:
 4. Install POSTMAN from chrome app store
 5. import Zoomcar.postman_collection.json collection into postman
 6. Now you can run API's from already made API requests in Postman.
+7. Please hit /addUsers and /addVehicles api (data population api for testing purpose) before hitting bookVehicle and getAllVehiclesByType api
 
 Instructions to run test cases:
 

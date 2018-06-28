@@ -1,0 +1,95 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Zoomcar",
+		"_postman_id": "59a1f409-ab91-32ad-ecce-48358f6db214",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "addUsers",
+			"request": {
+				"url": "http://localhost:8080/addUsers",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "addVehicles",
+			"request": {
+				"url": "http://localhost:8080/vehicle/addVehicles",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "bookVehicle",
+			"request": {
+				"url": "localhost:8080/booking/bookVehicle",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fromDate\":\"2017-05-12\",\n\t\"toDate\":\"2017-06-10\",\n\t\"vehicleId\":2,\n\t\"userId\":6\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "bookingHistory",
+			"request": {
+				"url": "localhost:8080/booking/history/6",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"toDate\":\"2018-06-28\",\n\t\"fromDate\":\"2018-07-28\",\n\t\"vehicleId\":6,\n\t\"userId\":2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getAllVehicles",
+			"request": {
+				"url": "http://localhost:8080/vehicle/getAll",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getVehiclesbyType",
+			"request": {
+				"url": "http://localhost:8080/vehicle//byType/SEDAN",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
